@@ -1,3 +1,3 @@
 Torben 50
-Ole 105
+Ole 104 
 Frank 25

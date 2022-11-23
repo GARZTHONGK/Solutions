@@ -26,16 +26,24 @@ Thereafter go on with the next file.
 #         line_number += 1
 #         print(f"line {line_number}: {line.strip()}")
 
+my_data = ["Tb2144n 50 \n", "Ole 104 \n" "Frank 25"]
+my_file = "data/files.txt"
+
+with open(my_file, "w") as file:
+     file.writelines(my_data)
+
+with open(my_file) as file:
+     lines = file.readlines()
 line_number = 0
-my_file = open("data/files.txt", "r")
-for line in my_file:
-     data = my_file.read()
+for line in lines:
+     line_number += 1
+     print(f"line {line_number}: {line.strip()} ")
+     print()
 
-     # data_name = data.replace(' ', '\n')
-     stringlist = data.split(' ')
-
-     print(stringlist)
-
-my_file.close()
+line_number = 0
+with open(my_file) as file:
+     for line in file:
+          print(f"line {line_number}: {line.strip()}")
+     print()
 
 
