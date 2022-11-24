@@ -89,17 +89,16 @@ def tjek():
 status = {"turn": 0, "sleepiness": 0, "thirst": 0, "hunger": 0, "whisky": 0, "gold": 0}  # dictionary
 
 while not dead() and status["turn"] < 1000:
-
     status["turn"] += 1
-    if status["sleepiness"] >= 89:
+
+    if status["sleepiness"] >= 90:
         sleep()
-    if status["hunger"] >= 79:
+    elif status["hunger"] >= 80:
         eat()
-    if status["thirst"] >= 84:
+    elif status["thirst"] >= 85:
         buy_whisky()
         drink()
-
-
-    mine()
+    else:
+        mine()
     tjek()
     print(status)
