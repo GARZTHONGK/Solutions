@@ -90,15 +90,23 @@ status = {"turn": 0, "sleepiness": 0, "thirst": 0, "hunger": 0, "whisky": 0, "go
 
 while not dead() and status["turn"] < 1000:
     status["turn"] += 1
+    activity = 0
 
     if status["sleepiness"] >= 90:
         sleep()
+        activity += 10
     elif status["hunger"] >= 80:
         eat()
-    elif status["thirst"] >= 85:
+        activity += 100
+    elif status["thirst"] >= 85 and not status["whisky"] >=1 :
         buy_whisky()
+        activity += 1000
+
+    elif status["thirst"] >= 85 and status["whisky"] >= 1:
         drink()
+        activity += 10000
     else:
         mine()
+        activity += 100000
     tjek()
-    print(status)
+    print(status, activity)
