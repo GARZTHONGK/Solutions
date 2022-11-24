@@ -72,22 +72,34 @@ def drink():    #drink:     sleepiness+=5,  thirst-=15, hunger-=1,  whisky-=1, g
 def dead():
     return status["sleepiness"] > 100 or status["thirst"] > 100 or status["hunger"] > 100
 
+def tjek():
+    if status["sleepiness"] < 0:
+        print("too much sleep")
+        status["sleepiness"] = 0
+    if status["thirst"] < 0:
+        print("too much thirst")
+        status["thirst"] = 0
+    if status["hunger"] < 0:
+        print("to much hunger")
+        status["hunger"] = 0
+    if status["whisky"] > 10:
+        print("too much whisky")
+        status["whisky"] = 10
 
 status = {"turn": 0, "sleepiness": 0, "thirst": 0, "hunger": 0, "whisky": 0, "gold": 0}  # dictionary
 
 while not dead() and status["turn"] < 1000:
+
     status["turn"] += 1
-    sleep()
+    if status["sleepiness"] >= 89:
+        sleep()
+    if status["hunger"] >= 79:
+        eat()
+    if status["thirst"] >= 84:
+        buy_whisky()
+        drink()
+
+
     mine()
-    mine()
-    sleep()
-    mine()
-    buy_whisky()
-    drink()
-    sleep()
-    sleep()
-    mine()
-    eat()
-    buy_whisky()
-    drink()
+    tjek()
     print(status)
