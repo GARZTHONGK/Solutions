@@ -48,7 +48,7 @@ def mine():       #mine:       sleepiness+=5,  thirst+=5,  hunger+=5,  whisky+=0
     status["gold"] += 5
 
 def eat():     # eat:     sleepiness+=5,  thirst-=5,  hunger-=20, whisky+=0, gold-=2
-    status["hunger"] -= 20
+    status["sleepiness"] -= 20
     status["thirst"] -= 5
     status["hunger"] -= 20
     status["whisky"] += 0
