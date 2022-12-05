@@ -46,8 +46,9 @@ import random
 
 
 class Albert(turtle.Turtle):
-    # def __init__(self):
-    #     self.uses = 0
+    def __init__(self):
+        super().__init__()
+        self.uses = 0
 
     def rotate_prey(self, positions):  # turtle will be turned right <degree> degrees. Use negative values for left turns.
         # self: the turtle that shall be rotated
@@ -55,16 +56,18 @@ class Albert(turtle.Turtle):
         # positions[0] is the coordinate tuple of the prey. positions[0][0] is the x-coordinate of the prey.
         # positions[1], positions[2], positions[3] refer to the hunters.
         degree = 5
-        uses = 1
-        print(type(uses))
+        # uses = 1
+        print(type(self.uses))
         print(distance(positions[0],positions[1]) ,distance(positions[0],positions[2]) , distance(positions[0],positions[3]))
-        if uses >= 4:
-            uses = 0
-        if (distance(positions[0],positions[1]) or distance(positions[0],positions[2]) or distance(positions[0],positions[3])) < 50 and uses <= 2:
+        if self.uses >= 4:
+            self.uses = 0
+        if (distance(positions[0],positions[1]) or distance(positions[0],positions[2]) or distance(positions[0],positions[3])) < 50 and self.uses == 2:
             degree = 90
-            uses =+ 1
+            self.uses =+ 1
         else: degree = 5
-        print(degree)
+
+        print(self.uses)
+
         return degree
 
 
@@ -181,7 +184,7 @@ def hunt(prey_class, hunter_class, color):  # execute the hunt
 
 # region edit this
 # edit these global constants only for debugging purposes:
-MAX_TURNS = 1000       # Maximum number of turns in a hunt.                           In competition: probably 200.
+MAX_TURNS = 100       # Maximum number of turns in a hunt.                           In competition: probably 200.
 ROUNDS = 1            # Each player plays the prey this often.                       In competition: probably 10.
 STEP_SIZE = 3         # Distance each turtle moves in one turn.                      In competition: probably 3.
 SPEED = 0             # Fastest: 10, slowest: 1, max speed: 0.                       In competition: probably 0.
