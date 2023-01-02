@@ -86,7 +86,7 @@ def mate(mate1, mate2):
             if type(mate1) == Dog:
                 print(f"Breeding {mate1.name} and {mate2.name}")
 
-                name = dghggs
+                name = "rasmus"
                 sound = "woof"
                 if mate1.height > mate2.height:
                     height = randint(mate2.height, mate1.height)
@@ -107,7 +107,8 @@ def mate(mate1, mate2):
                 tail_length = randint(mate1.tail_length, mate2.tail_length)
                 hunts_sheep = True
                 puppy1 = Dog(name, sound, height, weight, legs, female, tail_length, hunts_sheep)
-                print(puppy1)
+                return puppy1
+
             else: print("invalid animal")
     else:
         print(mate1.name, " and ", mate2.name, " cannot breed!")
@@ -125,9 +126,12 @@ dog1.wag_tail()
 print(type(dog1))
 # print(dog2)
 print("\n")
-mate(dog1, dog2)
+puppy1 = mate(dog1, dog2)
 # print(randrange(10,20))
 # print(type(dog2))
-print(Puppy1)
 
 
+print(puppy1)
+puppy2 = mate(dog1, dog2)
+print(puppy2)
+puppy2.wag_tail()
