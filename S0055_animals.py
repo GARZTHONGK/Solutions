@@ -90,11 +90,13 @@ def mate(mate1, mate2):
                 sound = "woof"
                 if mate1.height > mate2.height:
                     height = randint(mate2.height, mate1.height)
-                else: height = randint(mate1.height, mate2.height)
+                else:
+                    height = randint(mate1.height, mate2.height)
 
                 if mate1.weight > mate2.weight:
                     weight = randint(mate2.weight, mate1.weight)
-                else: weight = randint(mate1.weight, mate2.weight)
+                else:
+                    weight = randint(mate1.weight, mate2.weight)
                 legs = 4
 
                 female = bool(randint(1,10) % 2)
