@@ -34,8 +34,10 @@ Thereafter go on with the next file.
 
 #  Write your function below this line.
 def factorial(number):
-    return 1 if(number == 1 or number == 0) else number*factorial(number - 1)
+    result = 1
+    for i in range(1, number+1):
+        result = result*i
 
-
+    return result
 # Here starts the main program. From the main program you can call your functions.
-print(factorial(6))
+print(factorial(1000))
