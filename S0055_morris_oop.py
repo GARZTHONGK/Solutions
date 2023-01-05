@@ -19,7 +19,7 @@ Then send this Teams message to your teacher: <filename> done
 Thereafter go on with the next file.
 """
 
-class actions:
+class Miner:
     def sleep():
         status["sleepiness"] -= 10  # update sleepiness
         status["thirst"] += 1  # update thirst
@@ -83,19 +83,19 @@ while not dead() and status["turn"] < 1000:
     status["turn"] += 1
     activity = "nothing"
     if status["sleepiness"] >= 100:
-        actions.sleep()
+        Miner.sleep()
         activity = "sleep"
     elif status["hunger"] >= 90:
-        actions.eat()
+        Miner.eat()
         activity = "eat"
     elif status["thirst"] >= 95 and status["whisky"] > 0:
-        actions.drink()
+        Miner.drink()
         activity = "drink"
     elif status["thirst"] >= 90 and status["whisky"] <= 0:
-        actions.buy_whisky()
+        Miner.buy_whisky()
         activity = "buy whisky"
     else:
-        actions.mine()
+        Miner.mine()
         activity = "mine"
 
     # tjek()
