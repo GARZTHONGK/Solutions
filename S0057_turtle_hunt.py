@@ -47,8 +47,7 @@ import random
 
 class Albert(turtle.Turtle):
     def __init__(self):
-        super().__init__()
-        self.uses = 0
+        0
 
     def rotate_prey(self, positions):  # turtle will be turned right <degree> degrees. Use negative values for left turns.
         # self: the turtle that shall be rotated
@@ -56,17 +55,11 @@ class Albert(turtle.Turtle):
         # positions[0] is the coordinate tuple of the prey. positions[0][0] is the x-coordinate of the prey.
         # positions[1], positions[2], positions[3] refer to the hunters.
         degree = 5
-        # uses = 1
-        print(type(self.uses))
-        print(distance(positions[0],positions[1]) ,distance(positions[0],positions[2]) , distance(positions[0],positions[3]))
-        if self.uses >= 4:
-            self.uses = 0
-        if (distance(positions[0],positions[1]) or distance(positions[0],positions[2]) or distance(positions[0],positions[3])) < 50 and self.uses == 2:
-            degree = 90
-            self.uses =+ 1
-        else: degree = 5
 
-        print(self.uses)
+
+        print(distance(positions[0],positions[1]) ,distance(positions[0],positions[2]) , distance(positions[0],positions[3]))
+
+
 
         return degree
 
@@ -100,12 +93,12 @@ def distance(pos1, pos2):  # calculate the distance between 2 points with the Py
     return math.sqrt(delta_x ** 2 + delta_y ** 2)
 
 
-def direction(start_turtle, end_turtle):
-    # returns the direction from start_turtle to end_turtle in degrees
+def direction(start_position, end_position):
+    # returns the direction from start_position to end_position in degrees
     # 0° is east (plus x-axis), which is also the direction of each turtle at the beginning of each hunt.
     # 90° is south (minus y-axis), 180° is west (minus x-axis), 270° is north (plus y-axis)
-    delta_x = end_turtle.position()[0] - start_turtle.position()[0]
-    delta_y = end_turtle.position()[1] - start_turtle.position()[1]
+    delta_x = end_position[0] - start_position[0]
+    delta_y = end_position[1] - start_position[1]
     angle = math.atan2(delta_y, delta_x) * 180 / math.pi
     if delta_y < 0:
         return -angle
