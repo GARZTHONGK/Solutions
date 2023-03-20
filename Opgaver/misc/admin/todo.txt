@@ -1,0 +1,46 @@
+Exercises
+    Powerpoint Slides
+    Kahoots
+    examensopgave
+
+
+Powerpoint Slides
+    function calls
+    importing modules
+    aufbau programm: imports, klassen, funktionen, hauptprogramm
+    Best practice
+    OOP
+    GUI
+    SQL
+    3. normaliseringsgrad (normalform)
+    try except
+
+
+Kahoots
+    diverse S1 kahoots
+        Function calls
+        While loops
+        try except
+        ...
+
+
+Sonstiges
+    data Ordner aufloesen?
+    Aufgaben von EN auf DA uebersetzen
+
+
+opret python.doc aktualisieren:
+    Uebersicht, was erreicht werden soll.
+    Betonung auf 2 Projekte mit jeweiligem repository
+        opgaver nur lesen, nicht løsungen
+        solutions: deine løsungen
+        am anfang im file explorer alles von opgave nach solution kopieren (danach nur einzelne files, um løsungen nicht zu ueberschreiben)
+    Aufforderung zum senden des git links frueher
+    check list
+        lists all installation steps
+        provides tests for success of all steps
+
+
+S3
+    unit test (meilenstein 90, in Word-Dokument beschreiben)
+    api (meilenstein 90, in Word-Dokument beschreiben)
