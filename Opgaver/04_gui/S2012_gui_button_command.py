@@ -10,7 +10,7 @@ import tkinter as tk
 
 
 def empty_entry():
-    quit()
+    print(entry_1.get())
     print("button_1 was pressed")
     entry_1.delete(0, tk.END)  # Delete text in the entry box, beginning with the first character (0) and ending with the last character (tk.END)
 

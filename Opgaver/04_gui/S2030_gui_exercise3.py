@@ -25,4 +25,58 @@ When your program is complete, push it to your github repository.
 Then send this Teams message to your teacher: <filename> done
 Thereafter go on with the next file.
 """
+import tkinter as tk
+from tkinter import ttk
+
+main_window = tk.Tk()
+main_window.title("sejt navn")
+main_window.geometry("500x500")
+
+# create labelframe
+container = tk.LabelFrame(main_window, text="Container")
+container.grid(row=0, column=0)
+
+# create label
+padx = 8
+pady = 6
+
+# container
+container1 = tk.LabelFrame(main_window, text="Container")
+container1.grid(row=0, column=0)
+
+# frame 1
+frame1 = tk.Frame(container1)
+frame1.grid(row=0, column=0)
+
+
+# labels
+id = tk.Label(frame1, text="Id", padx=padx, pady=pady)
+id.grid(row=0, column=0)
+
+weight = tk.Label(frame1, text="Weight", padx=padx, pady=pady)
+weight.grid(row=0, column=1)
+
+destination = tk.Label(frame1, text="Destination", padx=padx, pady=pady)
+destination.grid(row=0, column=2)
+
+weather = tk.Label(frame1, text="Weather", padx=padx, pady=pady)
+weather.grid(row=0, column=3, padx=padx, pady=pady)
+
+
+# entries
+id_entry = tk.Entry(frame1, width=4)
+id_entry.grid(row=1, column=0, padx=padx, pady=pady)
+
+weight_entry = tk.Entry(frame1, width=8)
+weight_entry.grid(row=1, column=1, padx=padx, pady=pady)
+
+destination_entry = tk.Entry(frame1, width=20)
+destination_entry.grid(row=1, column=2, padx=padx, pady=pady)
+
+weather_entry = tk.Entry(frame1, width=14)
+weather_entry.grid(row=1, column=3, padx=padx, pady=pady)
+
+
+if __name__ == "__main__":
+    main_window.mainloop()
 
