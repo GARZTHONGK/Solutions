@@ -39,6 +39,14 @@ Thereafter go on with the next file.
 import tkinter as tk
 from tkinter import ttk
 
+
+def clearEntryBoxes():
+
+    id_entry.delete(0,tk.END)
+    weight_entry.delete(0, tk.END)
+    destination_entry.delete(0, tk.END)
+    weather_entry.delete(0,tk.END)
+
 padx = 8
 pady = 6
 
@@ -119,6 +127,23 @@ destination_entry.grid(row=1, column=2, padx=padx, pady=pady)
 weather_entry = tk.Entry(frame2, width=14)
 weather_entry.grid(row=1, column=3, padx=padx, pady=pady)
 
+# buttons
+frame3 = tk.Frame(container1)
+frame3.grid(row=2, column=0)
+
+create_button = tk.Button(frame3, text="Create")
+create_button.grid(row=2, column=0, padx=padx, pady=pady)
+
+update_button = tk.Button(frame3, text="Update")
+update_button.grid(row=2, column=1, padx=padx, pady=pady)
+
+
+delete_button = tk.Button(frame3, text="Delete")
+delete_button.grid(row=2,column=2, padx=padx, pady=pady)
+
+
+clear_button = tk.Button(frame3, text="Clear Entry Boxes", command=clearEntryBoxes)
+clear_button.grid(row=2, column=3, padx=padx, pady=pady)
 
 if __name__ == "__main__":
     main_window.mainloop()

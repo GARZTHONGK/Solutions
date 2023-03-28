@@ -27,6 +27,7 @@ Thereafter go on with the next file.
 import tkinter as tk
 
 def clearEntryBoxes():
+
     id_entry.delete(0,tk.END)
     weight_entry.delete(0, tk.END)
     destination_entry.delete(0, tk.END)
