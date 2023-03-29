@@ -64,7 +64,7 @@ table.insert(END, "ID\tName\tAge")
 
 # Query and add rows to table
 for customer in session.query(Customer):
-    table.insert(END, f"{customer.id}\t{customer.name}\t{customer.age}")
+    table.insert(END, f"{customer.id_label}\t{customer.name}\t{customer.age}")
 
 # Set scrollbar to table
 scrollbar.config(command=table.yview)

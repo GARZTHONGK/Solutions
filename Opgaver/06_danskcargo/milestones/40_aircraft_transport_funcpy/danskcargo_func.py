@@ -13,7 +13,7 @@ import danskcargo_sql as dcsql
 def booked_cargo(aircraft, date_):
     # returns the already booked cargo on an aircraft at a certain date
     with Session(dcsql.engine) as session:
-        records = session.scalars(select(dcd.Transport).where(dcd.Transport.aircraft_id == aircraft.id).where(extract('day', dcd.Transport.date) == date_.day).where(extract('month', dcd.Transport.date) == date_.month).where(extract('year', dcd.Transport.date) == date_.year))
+        records = session.scalars(select(dcd.Transport).where(dcd.Transport.aircraft_id == aircraft.id_label).where(extract('day', dcd.Transport.date) == date_.day).where(extract('month', dcd.Transport.date) == date_.month).where(extract('year', dcd.Transport.date) == date_.year))
         weight = 0
         for record in records:
             weight += dcsql.get_record(dcd.Container, record.container_id).weight
@@ -23,7 +23,7 @@ def booked_cargo(aircraft, date_):
 def find_destination(aircraft, date_):
     # return an aircraft's destination at a certain date in the transport table
     with Session(dcsql.engine) as session:
-        records = session.scalars(select(dcd.Transport).where(dcd.Transport.aircraft_id == aircraft.id).where(extract('day', dcd.Transport.date) == date_.day).where(extract('month', dcd.Transport.date) == date_.month).where(extract('year', dcd.Transport.date) == date_.year))
+        records = session.scalars(select(dcd.Transport).where(dcd.Transport.aircraft_id == aircraft.id_label).where(extract('day', dcd.Transport.date) == date_.day).where(extract('month', dcd.Transport.date) == date_.month).where(extract('year', dcd.Transport.date) == date_.year))
         for record in records:
             return dcsql.get_record(dcd.Container, record.container_id).destination
         return None
