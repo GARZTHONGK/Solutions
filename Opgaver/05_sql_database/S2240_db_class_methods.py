@@ -36,7 +36,7 @@ class Person(Base):
         return value >= 0
 
     @staticmethod
-    def convert_from_tuple(tuple_):  # Convert tuple to Person
+    def convert_from_tuple(tuple_):  # Convert tuple to Person Class
         person = Person(id=tuple_[0], name=tuple_[1], age=tuple_[2])
         return person
 

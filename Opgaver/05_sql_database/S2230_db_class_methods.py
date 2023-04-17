@@ -66,5 +66,5 @@ def select_all(classparam):  # https://docs.sqlalchemy.org/en/14/tutorial/data_s
 engine = create_engine(Database, echo=False, future=True)
 Base.metadata.create_all(engine)
 
-# print(select_all(Person))
+print(select_all(Person))
 print(Person.convert_from_tuple((12, "test", 17)))

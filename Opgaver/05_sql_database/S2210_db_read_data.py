@@ -15,7 +15,7 @@ Base = declarative_base()
 
 
 class Person(Base):
-    __tablename__ = "persons"
+    __tablename__ = "persons"  # is the tables name
     id = Column(Integer, primary_key=True)
     name = Column(String)
     age = Column(Integer)
