@@ -20,7 +20,7 @@ class Customers(Base):
 
     def valid(self):
         try:
-            value = int(self.container_id)
+            value = int(self.phone)
         except ValueError:
             return False
         return value >= 0
