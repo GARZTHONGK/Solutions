@@ -19,11 +19,7 @@ class Customers(Base):
         return self.id, self.email, self.phone
 
     def valid(self):
-        try:
-            value = int(self.phone)
-        except ValueError:
-            return False
-        return value >= 0
+        return self.email != "deleted"
 
     @staticmethod
     def convert_from_tuple(tuple_):
@@ -43,6 +39,13 @@ class Journeys(Base):
 
     def convert_to_tuple(self):
         return self.id, self.route, self.date, self.max_capacity
+
+    def valid(self):
+        try:
+            value = int(self.max_capacity)
+        except ValueError:
+            return False
+        return value >= 0
 
     @staticmethod
     def convert_from_tuple(tuple_):

@@ -58,15 +58,28 @@ def create_record(record):
         except:
             print("There was an error while creating a record")
 
+
 def update_customer(customer):
     with Session(engine) as session:
         session.execute(update(Customers).where(Customers.id == customer.id).values(email=customer.email, phone=customer.phone))
         session.commit()
 
 
-def delete_customer(customer):
+def soft_delete_customer(customer):
     with Session(engine) as session:
-        session.execute(delete(Customers).where(Customers.id == customer.id))
+        session.execute(update(Customers).where(Customers.id == customer.id).values(email="deleted", phone=customer.phone))
+        session.commit()
+
+
+def update_journey(journey):
+    with Session(engine) as session:
+        session.execute(update(Journeys).where(Journeys.id == journey.id).values(route=journey.route, date=journey.date, max_capacity=journey.max_capacity))
+        session.commit()
+
+
+def soft_delete_journey(journey):
+    with Session(engine) as session:
+        session.execute(update(Journeys).where(Journeys.id == journey.id).values(route=journey.route, date=journey.date, max_capacity=-1))
         session.commit()
 
 
