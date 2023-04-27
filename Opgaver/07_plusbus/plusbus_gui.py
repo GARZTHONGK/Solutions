@@ -190,7 +190,7 @@ def empty_treeview(tree):
 
 main_window = tk.Tk()
 main_window.title("Plusbus S2 Prøveeksamen")
-main_window.geometry("1200x1200")
+main_window.geometry("2000x2000")
 
 style = ttk.Style()
 style.theme_use("default")
@@ -199,7 +199,7 @@ style.configure("Treeview", background=treeview_background, foreground=treeview_
 style.map("Treeview", background=[("selected", treeview_selected)])
 
 frame_customers = tk.LabelFrame(main_window, text="Customers")
-frame_customers.grid(row=0, column=10, padx=padx, pady=pady, sticky=tk.N)
+frame_customers.grid(row=0, column=0, padx=padx, pady=pady, sticky=tk.N)
 
 tree_frame_customers = tk.Frame(frame_customers)
 tree_frame_customers.grid(row=0, column=1, padx=pady, pady=pady)
@@ -272,7 +272,7 @@ button_clear_entries_customer.grid(row=3, column=0, padx=padx, pady=10)
 # journey region
 
 frame_journeys = tk.LabelFrame(main_window, text="Journeys")
-frame_journeys.grid(row=1, column=10, padx=padx, pady=pady, sticky=tk.N)
+frame_journeys.grid(row=1, column=0, padx=padx, pady=pady, sticky=tk.N)
 
 tree_frame_journeys = tk.Frame(frame_journeys)
 tree_frame_journeys.grid(row=0, column=1, padx=pady, pady=pady)
@@ -354,7 +354,7 @@ button_clear_entries_journeys.grid(row=3, column=0, padx=padx, pady=10)
 # Journeys end region
 # Bookings start region
 frame_bookings = tk.LabelFrame(main_window, text="Bookings")
-frame_bookings.grid(row=0, column=20, padx=padx, pady=pady, sticky=tk.N)
+frame_bookings.grid(row=2, column=0, padx=padx, pady=pady, sticky=tk.N)
 
 tree_frame_bookings = tk.Frame(frame_bookings.grid(row=0, column=1, padx=pady, pady=pady))
 tree_scroll_bookings = tk.Scrollbar(tree_frame_bookings)
@@ -364,18 +364,18 @@ tree_bookings.grid(row=0, column=0, padx=0, pady=pady)
 tree_scroll_bookings.config(command=tree_bookings.yview)
 
 
-tree_bookings["columns"] = ("Id", "Route", "Date", "Max Capacity")
+tree_bookings["columns"] = ("Id", "Customer_id", "Journey_id", "Capacity")
 tree_bookings.column("#0", width=0, stretch=tk.NO)
 tree_bookings.column("Id", anchor=tk.E, width=40)
-tree_bookings.column("Route", anchor=tk.E, width=200)
-tree_bookings.column("Date", anchor=tk.W, width=80)
-tree_bookings.column("Max Capacity", anchor=tk.W, width=80)
+tree_bookings.column("Customer_id", anchor=tk.E, width=200)
+tree_bookings.column("Journey_id", anchor=tk.W, width=80)
+tree_bookings.column("Capacity", anchor=tk.W, width=80)
 
 tree_bookings.heading("#0", text="", anchor=tk.W)
 tree_bookings.heading("Id", text="Id", anchor=tk.CENTER)
-tree_bookings.heading("Route", text="Route", anchor=tk.CENTER)
-tree_bookings.heading("Date", text="Date", anchor=tk.CENTER)
-tree_bookings.heading("Max Capacity", text="Max Capacity", anchor=tk.CENTER)
+tree_bookings.heading("Customer_id", text="Customer id", anchor=tk.CENTER)
+tree_bookings.heading("Journey_id", text="Journey id", anchor=tk.CENTER)
+tree_bookings.heading("Capacity", text="Capacity", anchor=tk.CENTER)
 
 tree_bookings.tag_configure("oddrow", background=oddrow)
 tree_bookings.tag_configure("evenrow", background=evenrow)
