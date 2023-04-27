@@ -95,6 +95,19 @@ def soft_delete_journey(journey):
         session.execute(update(Journeys).where(Journeys.id == journey.id).values(route=journey.route, date=journey.date, max_capacity=-1))
         session.commit()
 
+# booking region
+
+
+def update_booking(booking):
+    with Session(engine) as session:
+        session.execute(update(Bookings).where(Bookings.id == booking.id).values(date=booking.date, customer_id=booking.customer_id, journey_id=booking.journey_id))
+        session.commit()
+
+
+def hard_delete_booking(booking):
+    with Session(engine) as session:
+        session.execute(delete(Bookings).where(Bookings.id == booking.id))
+        session.commit()
 
 if __name__ == "__main__":  # Executed when invoked directly
     engine = create_engine(Database, echo=False, future=True)  # https://docs.sqlalchemy.org/en/14/tutorial/engine.html   The start of any SQLAlchemy application is an object called the Engine. This object acts as a central source of connections to a particular database, providing both a factory as well as a holding space called a connection pool for these database connections. The engine is typically a global object created just once for a particular database server, and is configured using a URL string which will describe how it should connect to the database host or backend.

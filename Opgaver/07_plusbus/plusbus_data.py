@@ -49,8 +49,20 @@ class Journeys(Base):
 
     @staticmethod
     def convert_from_tuple(tuple_):
-        journeys = Journeys(id=tuple_[0], route=tuple_[1], date=tuple_[2], max_capacity=tuple_[3])
-        return journeys
+        try:
+            if tuple_[0] != '':  # unnecessary precaution
+                id_ = int(tuple_[0])
+            else:
+                id_ = 0
+            route = tuple_[1]
+            date = parser.parse(tuple_[2])
+            max_capacity = int(tuple_[3])
+            journey = Journeys(id=id_, route=route, date=date, max_capacity=max_capacity)
+            return journey
+        except:
+            print("", "Entries could not be converted to journey!")
+        # journeys = Journeys(id=tuple_[0], route=tuple_[1], date=tuple_[2], max_capacity=tuple_[3])
+        # return journeys
 
 
 class Bookings(Base):
@@ -67,6 +79,13 @@ class Bookings(Base):
 
     def convert_to_tuple(self):
         return self.id, self. customer_id, self.journey_id, self.capacity
+
+    def valid(self):
+        try:
+            value = int(self.capacity)
+        except ValueError:
+            return False
+        return value >= 0
 
     @staticmethod
     def convert_from_tuple(tuple_):

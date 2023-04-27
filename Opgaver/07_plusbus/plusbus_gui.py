@@ -2,7 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 import plusbus_data as pbd
 import plusbus_func as pbf
-import  plusbus_sql as pbsql
+import plusbus_sql as pbsql
+from dateutil import parser
 
 
 padx = 8
@@ -92,11 +93,8 @@ def edit_journey(event, tree):
 
 def create_new_journey(tree, record):
     journey = pbd.Journeys.convert_from_tuple(record)
-    print("create_record_journey")
-    print(journey)
     pbsql.create_record_journey(journey)
-    # clear_journey_entries()
-    print("refresh_treeview")
+    clear_journey_entries()
     refresh_treeview(tree, pbd.Journeys)
 
 
@@ -105,6 +103,66 @@ def update_journey(tree, record):
     pbsql.update_journey(journey)
     clear_journey_entries()
     refresh_treeview(tree, pbd.Journeys)
+
+
+def delete_journey(tree, record):
+    journey = pbd.Journeys.convert_from_tuple(record)
+    pbsql.soft_delete_journey(journey)
+    clear_customer_entries()
+    refresh_treeview(tree, pbd.Journeys)
+
+# end region journeys
+# start region bookings
+
+def read_booking_entries():
+    return entry_bookings_id.get(), entry_bookings_customer_id.get(), entry_bookings_journey_id.get(), entry_bookings_capacity.get()
+def clear_booking_entries():
+    entry_bookings_id.delete(0, tk.END)
+    entry_bookings_customer_id.delete(0, tk.END)
+    entry_bookings_journey_id.delete(0, tk.END)
+    entry_bookings_capacity.delete(0, tk.END)
+
+def write_booking_entries(values): # fill entry boxes
+    entry_bookings_id.insert(0, values[0])
+    entry_bookings_customer_id.insert(0, values[1])
+    entry_bookings_journey_id.insert(0, values[2])
+    entry_bookings_capacity.insert(0, values[3])
+
+def edit_booking(event, tree):
+    index_selected = tree.focus()
+    values = tree.item(index_selected, 'values')
+    clear_booking_entries()
+    write_booking_entries(values)
+
+
+def create_new_booking(tree, record):
+    booking = pbd.Bookings.convert_from_tuple(record)
+    capacity_ok = pbf.capacity_available(pbsql.get_record(pbd.Journeys, booking.journey_id), booking.date)
+    if capacity_ok:
+        print("updated transport")
+        pbsql.update_booking(booking)
+        # clear_booking_entries()
+        refresh_treeview(tree, pbd.Bookings)
+    else:
+        print("Max capacity reached on vehicle")
+
+
+def update_booking(tree, record):
+    booking = pbd.Bookings.convert_from_tuple(record)
+    capacity_ok = pbf.capacity_available(pbsql.get_record(pbd.Journeys, booking.journey_id), booking.date, pbsql.get_record(pbd.Customers, booking.id))
+    if capacity_ok:
+        pbsql.update_booking(booking)
+        clear_booking_entries()
+        refresh_treeview(tree, pbd.Bookings)
+    else:
+        print("Max capacity reached on vehicle")
+
+
+def delete_booking(tree, record):
+    booking = pbd.Bookings.convert_from_tuple(record)
+    pbsql.hard_delete_booking(booking)
+    clear_booking_entries()
+    refresh_treeview(tree, pbd.Bookings)
 
 
 def read_table(tree, class_):
@@ -141,7 +199,7 @@ style.configure("Treeview", background=treeview_background, foreground=treeview_
 style.map("Treeview", background=[("selected", treeview_selected)])
 
 frame_customers = tk.LabelFrame(main_window, text="Customers")
-frame_customers.grid(row=0, column=0, padx=padx, pady=pady, sticky=tk.N)
+frame_customers.grid(row=0, column=10, padx=padx, pady=pady, sticky=tk.N)
 
 tree_frame_customers = tk.Frame(frame_customers)
 tree_frame_customers.grid(row=0, column=1, padx=pady, pady=pady)
@@ -214,7 +272,7 @@ button_clear_entries_customer.grid(row=3, column=0, padx=padx, pady=10)
 # journey region
 
 frame_journeys = tk.LabelFrame(main_window, text="Journeys")
-frame_journeys.grid(row=1, column=0, padx=padx, pady=pady, sticky=tk.N)
+frame_journeys.grid(row=1, column=10, padx=padx, pady=pady, sticky=tk.N)
 
 tree_frame_journeys = tk.Frame(frame_journeys)
 tree_frame_journeys.grid(row=0, column=1, padx=pady, pady=pady)
@@ -293,10 +351,90 @@ button_clear_entries_journeys = tk.Button(button_frame_journeys, text="Clear all
 button_clear_entries_journeys.grid(row=3, column=0, padx=padx, pady=10)
 
 
+# Journeys end region
+# Bookings start region
+frame_bookings = tk.LabelFrame(main_window, text="Bookings")
+frame_bookings.grid(row=0, column=20, padx=padx, pady=pady, sticky=tk.N)
+
+tree_frame_bookings = tk.Frame(frame_bookings.grid(row=0, column=1, padx=pady, pady=pady))
+tree_scroll_bookings = tk.Scrollbar(tree_frame_bookings)
+tree_scroll_bookings.grid(row=0, column=1, padx=padx, pady=pady, sticky="ns")
+tree_bookings = ttk.Treeview(tree_frame_bookings, yscrollcommand=tree_scroll_bookings.set, selectmode="browse")
+tree_bookings.grid(row=0, column=0, padx=0, pady=pady)
+tree_scroll_bookings.config(command=tree_bookings.yview)
+
+
+tree_bookings["columns"] = ("Id", "Route", "Date", "Max Capacity")
+tree_bookings.column("#0", width=0, stretch=tk.NO)
+tree_bookings.column("Id", anchor=tk.E, width=40)
+tree_bookings.column("Route", anchor=tk.E, width=200)
+tree_bookings.column("Date", anchor=tk.W, width=80)
+tree_bookings.column("Max Capacity", anchor=tk.W, width=80)
+
+tree_bookings.heading("#0", text="", anchor=tk.W)
+tree_bookings.heading("Id", text="Id", anchor=tk.CENTER)
+tree_bookings.heading("Route", text="Route", anchor=tk.CENTER)
+tree_bookings.heading("Date", text="Date", anchor=tk.CENTER)
+tree_bookings.heading("Max Capacity", text="Max Capacity", anchor=tk.CENTER)
+
+tree_bookings.tag_configure("oddrow", background=oddrow)
+tree_bookings.tag_configure("evenrow", background=evenrow)
+
+tree_bookings.bind("<ButtonRelease-1>", lambda event: edit_booking(event, tree_bookings))
+
+
+# Create container for containers
+controls_frame_bookings = tk.Frame(frame_bookings)
+controls_frame_bookings.grid(row=0, column=0, padx=padx, pady=pady)
+
+# create container for labels and entries
+edit_frame_bookings = tk.Frame(controls_frame_bookings)
+edit_frame_bookings.grid(row=0, column=1, padx=padx, pady=pady)
+
+# create container for buttons
+button_frame_bookings = tk.Frame(controls_frame_bookings)
+button_frame_bookings.grid(row=0, column=0, padx=padx, pady=pady)
+
+
+# create labels and entries
+
+label_bookings_id = tk.Label(edit_frame_bookings, text="Id")
+label_bookings_id.grid(row=0, column=0, padx=padx, pady=pady)
+entry_bookings_id = tk.Entry(edit_frame_bookings, width=4, justify="right")
+entry_bookings_id.grid(row=1, column=0, padx=padx, pady=pady)
+
+label_bookings_customer_id = tk.Label(edit_frame_bookings, text="route")
+label_bookings_customer_id.grid(row=2, column=0, padx=padx, pady=pady)
+entry_bookings_customer_id = tk.Entry(edit_frame_bookings, width=30, justify="right")
+entry_bookings_customer_id.grid(row=3, column=0, padx=padx, pady=pady)
+
+label_bookings_journey_id = tk.Label(edit_frame_bookings, text="date")
+label_bookings_journey_id.grid(row=4, column=0, padx=padx, pady=pady)
+entry_bookings_journey_id = tk.Entry(edit_frame_bookings, width=12, justify="right")
+entry_bookings_journey_id.grid(row=5, column=0, padx=padx, pady=pady)
+
+label_bookings_capacity = tk.Label(edit_frame_bookings, text="Max capacity")
+label_bookings_capacity.grid(row=6, column=0, padx=padx, pady=pady)
+entry_bookings_capacity = tk.Entry(edit_frame_bookings, width=4, justify="right")
+entry_bookings_capacity.grid(row=7, column=0, padx=padx, pady=pady)
+
+# create buttons
+button_create_bookings = tk.Button(button_frame_bookings, text="Create", command=lambda: create_new_booking(tree_bookings, read_booking_entries()))
+button_create_bookings.grid(row=0, column=0, padx=padx, pady=10)
+
+button_update_bookings = tk.Button(button_frame_bookings, text="Update", command=lambda: update_booking(tree_bookings, read_booking_entries()))
+button_update_bookings.grid(row=1, column=0, padx=padx, pady=10)
+
+button_delete_bookings = tk.Button(button_frame_bookings, text="Delete", command=lambda: delete_booking(tree_bookings, read_booking_entries()))
+button_delete_bookings.grid(row=2, column=0, padx=padx, pady=10)
+
+button_clear_entries_bookings = tk.Button(button_frame_bookings, text="Clear all entries", command=clear_booking_entries)
+button_clear_entries_bookings.grid(row=3, column=0, padx=padx, pady=10)
 
 
 
 if __name__ == "__main__": # main loop
     refresh_treeview(tree_customers, pbd.Customers)
     refresh_treeview(tree_journeys, pbd.Journeys)
+    refresh_treeview(tree_bookings, pbd.Bookings)
     main_window.mainloop()
