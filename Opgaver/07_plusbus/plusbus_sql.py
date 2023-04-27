@@ -82,6 +82,8 @@ def create_record_journey(record):
             session.commit()
         except:
             print("There was an error while creating a record")
+
+
 def update_journey(journey):
     with Session(engine) as session:
         session.execute(update(Journeys).where(Journeys.id == journey.id).values(route=journey.route, date=journey.date, max_capacity=journey.max_capacity))

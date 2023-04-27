@@ -104,7 +104,7 @@ def update_journey(tree, record):
     journey = pbd.Journeys.convert_from_tuple(record)
     pbsql.update_journey(journey)
     clear_journey_entries()
-    refresh_treeview()
+    refresh_treeview(tree, pbd.Journeys)
 
 
 def read_table(tree, class_):
