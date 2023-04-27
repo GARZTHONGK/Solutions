@@ -22,7 +22,7 @@ def read_customer_entries():  # Read content of entry boxes
 
 def create_new_customer(tree, record):
     customer = pbd.Customers.convert_from_tuple(record)
-    pbsql.create_record(customer)
+    pbsql.create_record_customer(customer)
     clear_customer_entries()
     refresh_treeview(tree, pbd.Customers)
 
@@ -90,10 +90,13 @@ def edit_journey(event, tree):
     write_journey_entries(values)
 
 
-def create_journey(tree, record):
+def create_new_journey(tree, record):
     journey = pbd.Journeys.convert_from_tuple(record)
-    pbsql.create_record(journey)
-    clear_journey_entries()
+    print("create_record_journey")
+    print(journey)
+    pbsql.create_record_journey(journey)
+    # clear_journey_entries()
+    print("refresh_treeview")
     refresh_treeview(tree, pbd.Journeys)
 
 
@@ -214,7 +217,7 @@ frame_journeys = tk.LabelFrame(main_window, text="Journeys")
 frame_journeys.grid(row=1, column=0, padx=padx, pady=pady, sticky=tk.N)
 
 tree_frame_journeys = tk.Frame(frame_journeys)
-tree_frame_journeys.grid(row=0, column=0, padx=pady, pady=pady)
+tree_frame_journeys.grid(row=0, column=1, padx=pady, pady=pady)
 tree_scroll_journeys = tk.Scrollbar(tree_frame_journeys)
 tree_scroll_journeys.grid(row=0, column=1, padx=padx, pady=pady, sticky="ns")
 tree_journeys = ttk.Treeview(tree_frame_journeys, yscrollcommand=tree_scroll_journeys.set, selectmode="browse")
@@ -226,8 +229,8 @@ tree_journeys["columns"] = ("Id", "Route", "Date", "Max Capacity")
 tree_journeys.column("#0", width=0, stretch=tk.NO)
 tree_journeys.column("Id", anchor=tk.E, width=40)
 tree_journeys.column("Route", anchor=tk.E, width=200)
-tree_journeys.column("Date", anchor=tk.W, width=120)
-tree_journeys.column("Max Capacity", anchor=tk.W, width=40)
+tree_journeys.column("Date", anchor=tk.W, width=80)
+tree_journeys.column("Max Capacity", anchor=tk.W, width=80)
 
 tree_journeys.heading("#0", text="", anchor=tk.W)
 tree_journeys.heading("Id", text="Id", anchor=tk.CENTER)
@@ -268,12 +271,12 @@ entry_journeys_route.grid(row=3, column=0, padx=padx, pady=pady)
 
 label_journeys_date = tk.Label(edit_frame_journeys, text="date")
 label_journeys_date.grid(row=4, column=0, padx=padx, pady=pady)
-entry_journeys_date = tk.Entry(edit_frame_journeys, width=8, justify="right")
+entry_journeys_date = tk.Entry(edit_frame_journeys, width=12, justify="right")
 entry_journeys_date.grid(row=5, column=0, padx=padx, pady=pady)
 
 label_journeys_max_capacity = tk.Label(edit_frame_journeys, text="Max capacity")
 label_journeys_max_capacity.grid(row=6, column=0, padx=padx, pady=pady)
-entry_journeys_max_capacity = tk.Entry(edit_frame_journeys, width=8, justify="right")
+entry_journeys_max_capacity = tk.Entry(edit_frame_journeys, width=4, justify="right")
 entry_journeys_max_capacity.grid(row=7, column=0, padx=padx, pady=pady)
 
 # create buttons
@@ -295,4 +298,5 @@ button_clear_entries_journeys.grid(row=3, column=0, padx=padx, pady=10)
 
 if __name__ == "__main__": # main loop
     refresh_treeview(tree_customers, pbd.Customers)
+    refresh_treeview(tree_journeys, pbd.Journeys)
     main_window.mainloop()

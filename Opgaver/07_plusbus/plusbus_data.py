@@ -35,7 +35,7 @@ class Journeys(Base):
     max_capacity = Column(Integer)
 
     def __repr__(self):
-        return f"Journeys(Journey id:{self.id}    Route id:{self.route}    Date:{self.date}    Max Capacity:{self.max_capacity})"
+        return f"Journeys(Journey id:{self.id}    Journey route:{self.route}    Journey date:{self.route}    Max-capacity:{self.max_capacity})"
 
     def convert_to_tuple(self):
         return self.id, self.route, self.date, self.max_capacity

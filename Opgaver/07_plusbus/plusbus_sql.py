@@ -49,8 +49,9 @@ def get_record(classparam, record_id):
     return record
 
 
-def create_record(record):
+def create_record_customer(record):
     with Session(engine) as session:
+        print(record)
         record.entry_customer_id = None
         session.add(record)
         try:
@@ -71,6 +72,16 @@ def soft_delete_customer(customer):
         session.commit()
 
 
+def create_record_journey(record):
+    with Session(engine) as session:
+        print(record)
+        record.entry_journey_id = None
+        print(record)
+        session.add(record)
+        try:
+            session.commit()
+        except:
+            print("There was an error while creating a record")
 def update_journey(journey):
     with Session(engine) as session:
         session.execute(update(Journeys).where(Journeys.id == journey.id).values(route=journey.route, date=journey.date, max_capacity=journey.max_capacity))
