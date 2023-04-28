@@ -17,5 +17,12 @@ def booked_journey(booking, date_):
 
 def capacity_available(booking, date_):
     booked = booked_journey(booking, date_)
-    return booking.max_capacity >= booked + 1
+    return booking.max_capacity >= booked
 
+def capacity_remaining(journey_id):
+    with Session(pbsql.engine) as session:
+        records = session.scalars(select(pbd.Bookings).where(pbd.Bookings.journey_id == journey_id))
+        capacity = 0
+        for record in records:
+            capacity += record.capacity
+        return capacity

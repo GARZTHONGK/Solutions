@@ -149,8 +149,9 @@ def create_new_booking(tree, record):
 
 def update_booking(tree, record):
     booking = pbd.Bookings.convert_from_tuple(record)
-    capacity_ok = pbf.capacity_available(pbsql.get_record(pbd.Journeys, booking.journey_id), booking.date, pbsql.get_record(pbd.Customers, booking.id))
-    if capacity_ok:
+    capacity_remianing = pbf.capacity_remaining(pbsql.get_record(pbd.Journeys, booking.journey_id))
+    print(capacity_remianing)
+    if capacity_remianing :
         pbsql.update_booking(booking)
         clear_booking_entries()
         refresh_treeview(tree, pbd.Bookings)
@@ -353,10 +354,12 @@ button_clear_entries_journeys.grid(row=3, column=0, padx=padx, pady=10)
 
 # Journeys end region
 # Bookings start region
-frame_bookings = tk.LabelFrame(main_window, text="Bookings")
-frame_bookings.grid(row=2, column=0, padx=padx, pady=pady, sticky=tk.N)
 
-tree_frame_bookings = tk.Frame(frame_bookings.grid(row=0, column=1, padx=pady, pady=pady))
+frame_bookings = tk.LabelFrame(main_window, text="Bookings")
+frame_bookings.grid(row=0, column=1, padx=padx, pady=pady, sticky=tk.N)
+
+tree_frame_bookings = tk.Frame(frame_bookings)
+tree_frame_bookings.grid(row=0, column=1, padx=pady, pady=pady)
 tree_scroll_bookings = tk.Scrollbar(tree_frame_bookings)
 tree_scroll_bookings.grid(row=0, column=1, padx=padx, pady=pady, sticky="ns")
 tree_bookings = ttk.Treeview(tree_frame_bookings, yscrollcommand=tree_scroll_bookings.set, selectmode="browse")
@@ -367,9 +370,9 @@ tree_scroll_bookings.config(command=tree_bookings.yview)
 tree_bookings["columns"] = ("Id", "Customer_id", "Journey_id", "Capacity")
 tree_bookings.column("#0", width=0, stretch=tk.NO)
 tree_bookings.column("Id", anchor=tk.E, width=40)
-tree_bookings.column("Customer_id", anchor=tk.E, width=200)
-tree_bookings.column("Journey_id", anchor=tk.W, width=80)
-tree_bookings.column("Capacity", anchor=tk.W, width=80)
+tree_bookings.column("Customer_id", anchor=tk.CENTER, width=200)
+tree_bookings.column("Journey_id", anchor=tk.CENTER, width=80)
+tree_bookings.column("Capacity", anchor=tk.CENTER, width=80)
 
 tree_bookings.heading("#0", text="", anchor=tk.W)
 tree_bookings.heading("Id", text="Id", anchor=tk.CENTER)
@@ -403,17 +406,17 @@ label_bookings_id.grid(row=0, column=0, padx=padx, pady=pady)
 entry_bookings_id = tk.Entry(edit_frame_bookings, width=4, justify="right")
 entry_bookings_id.grid(row=1, column=0, padx=padx, pady=pady)
 
-label_bookings_customer_id = tk.Label(edit_frame_bookings, text="route")
+label_bookings_customer_id = tk.Label(edit_frame_bookings, text="Customer id")
 label_bookings_customer_id.grid(row=2, column=0, padx=padx, pady=pady)
 entry_bookings_customer_id = tk.Entry(edit_frame_bookings, width=30, justify="right")
 entry_bookings_customer_id.grid(row=3, column=0, padx=padx, pady=pady)
 
-label_bookings_journey_id = tk.Label(edit_frame_bookings, text="date")
+label_bookings_journey_id = tk.Label(edit_frame_bookings, text="Journey id")
 label_bookings_journey_id.grid(row=4, column=0, padx=padx, pady=pady)
 entry_bookings_journey_id = tk.Entry(edit_frame_bookings, width=12, justify="right")
 entry_bookings_journey_id.grid(row=5, column=0, padx=padx, pady=pady)
 
-label_bookings_capacity = tk.Label(edit_frame_bookings, text="Max capacity")
+label_bookings_capacity = tk.Label(edit_frame_bookings, text="capacity")
 label_bookings_capacity.grid(row=6, column=0, padx=padx, pady=pady)
 entry_bookings_capacity = tk.Entry(edit_frame_bookings, width=4, justify="right")
 entry_bookings_capacity.grid(row=7, column=0, padx=padx, pady=pady)
