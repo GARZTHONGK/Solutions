@@ -149,9 +149,12 @@ def create_new_booking(tree, record):
 
 def update_booking(tree, record):
     booking = pbd.Bookings.convert_from_tuple(record)
-    capacity_remianing = pbf.capacity_remaining(pbsql.get_record(pbd.Journeys, booking.journey_id))
-    print(capacity_remianing)
-    if capacity_remianing :
+    max_capacity = pbsql.get_record(pbd.Journeys, booking.max_capacity)
+    print(max_capacity)
+    capacity_remaining = pbf.capacity_remaining(pbsql.get_record(pbd.Journeys, booking.journey_id),pbsql.get_record(pbd.Journeys, booking.max_capacity))
+
+    print(capacity_remaining)
+    if capacity_remaining >= 0:
         pbsql.update_booking(booking)
         clear_booking_entries()
         refresh_treeview(tree, pbd.Bookings)
